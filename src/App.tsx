@@ -1,9 +1,12 @@
 import * as superagent from 'superagent';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as React from 'react';
+import { Route , Link } from 'react-router-dom';
 import './App.css';
 import MiniCart from './components/mini-cart/MiniCart';
 import ProductList from './components/product-list/ProductList';
+import Home from './pages/home/Home';
+import About from './pages/about/About';
 import ICartItem from './models/cartItem';
 import IProduct from './models/product';
 
@@ -79,11 +82,37 @@ class App extends React.Component<{}, IState> {
             <h3>Food App</h3>
           </div>          
           <div className="col-4">
+            <ul>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/about">About</Link>
+              </li>
+            </ul>
+          </div>
+          <div className="col-4">
               <MiniCart cart={this.state.cart} />
           </div>
         </nav>
-        <div className="container">            
-            <ProductList list={this.state.products} />
+        <div className="container">
+            <div className="row">
+              <div className="col">
+                <Route 
+                  exact={true} 
+                  path="/" 
+                  component={Home} 
+                />
+                <Route 
+                  path="/about" 
+                  component={About} 
+                />
+              </div>
+            </div>            
+            <ProductList 
+              getCart={this.getCart}
+              list={this.state.products}
+            />
             {loaderComponent}
         </div>
       </div>

@@ -11,24 +11,27 @@ import IProduct from './models/product';
 interface IState {
   cart: ICartItem[];
   products: IProduct[];
+  showLoader: boolean;
 };
 
 class App extends React.Component<{}, IState> {  
   public state : Readonly<IState> = {
     cart: [],
-    products: []
+    products: [],
+    showLoader: true
   };
 
-  componentWillMount(){
+  componentDidMount(){
+    console.log('inside componentDidMount');
+  }
+
+  componentDidUpdate(){
+    console.log('inside componentDidUpdate');
+  }
+
+  public getCart = () => {
     superagent
-      .get('http://5b209234ca762000147b254f.mockapi.io/products')
-      .end((err: superagent.ResponseError, res: superagent.Response) => {
-        this.setState({
-          products: res.body
-        });
-      });
-    superagent
-      .get('http://5b209234ca762000147b254f.mockapi.io/cart')
+      .get('https://5b209234ca762000147b254f.mockapi.io/cart')
       .end((err: superagent.ResponseError, res: superagent.Response) => {
         this.setState({
           cart: res.body
@@ -36,7 +39,39 @@ class App extends React.Component<{}, IState> {
       })
   }
 
+  public getProducts = () => {
+    superagent
+      .get('https://5b209234ca762000147b254f.mockapi.io/products')
+      .end((err: superagent.ResponseError, res: superagent.Response) => {
+        this.setState({
+          products: res.body,
+          showLoader: false
+        });
+      });
+  }
+
+  componentWillMount(){
+    console.log('inside componentWillMount');
+    this.getProducts();
+    this.getCart();
+  }
+
   public render() {
+    let loaderComponent = null;
+    if(this.state.showLoader){
+      loaderComponent = (
+        <div className="progress">
+          <div 
+              className="progress-bar progress-bar-striped progress-bar-animated" 
+              role="progressbar" 
+              aria-valuenow={75} 
+              aria-valuemin={0} 
+              aria-valuemax={100}
+            />
+        </div>
+      )
+    }
+    
     return (
       <div className="container">
         <nav className="site-header sticky-top row">
@@ -49,6 +84,7 @@ class App extends React.Component<{}, IState> {
         </nav>
         <div className="container">            
             <ProductList list={this.state.products} />
+            {loaderComponent}
         </div>
       </div>
     );

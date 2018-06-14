@@ -3,35 +3,39 @@ import IProduct from '../../models/product';
 import './Product.css';
 
 interface IProps {
-    item: IProduct
+    item: IProduct,
+    onAddToCart: Function
 }
-class Product extends React.Component<IProps>{
-    public render(){
-        return (
-            <div className="col-6 product">  
-                <div className="card bg-info">                    
-                    <img className="card-img-top" src={this.props.item.imageUrl} />
-                    <div className="card-body">
-                        <h5 className="card-title">
-                            {this.props.item.title}
-                        </h5>
-                        <p className="card-text">
-                            {this.props.item.description}
-                        </p>
-                        <p className="card-text">
-                            Price: {this.props.item.price}
-                        </p>
-                        <div>
-                            <button className="btn btn-success">
-                                Add to Cart
-                            </button>
-                        </div>
+const Product: React.SFC<IProps> = ({item, onAddToCart}: IProps) => {
+    const onClickEvent = () => {
+        onAddToCart(item.id);
+    };
+    return (
+        <div className="col-6 product">  
+            <div className="card bg-info">                    
+                <img className="card-img-top" src={item.imageUrl} />
+                <div className="card-body">
+                    <h5 className="card-title">
+                        {item.title}
+                    </h5>
+                    <p className="card-text">
+                        {item.description}
+                    </p>
+                    <p className="card-text">
+                        Price: {item.price}
+                    </p>
+                    <div>
+                        <button 
+                            onClick={onClickEvent}
+                            className="btn btn-success">
+                            Add to Cart
+                        </button>
                     </div>
                 </div>
-                
             </div>
-        )
-    }
+            
+        </div>
+    )
 }
 
 export default Product;

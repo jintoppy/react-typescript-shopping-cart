@@ -4,24 +4,19 @@ import * as React from 'react';
 import { Route , Link } from 'react-router-dom';
 import './App.css';
 import MiniCart from './components/mini-cart/MiniCart';
-import ProductList from './components/product-list/ProductList';
 import Home from './pages/home/Home';
 import About from './pages/about/About';
 import ICartItem from './models/cartItem';
-import IProduct from './models/product';
+
 
 
 interface IState {
   cart: ICartItem[];
-  products: IProduct[];
-  showLoader: boolean;
 };
 
 class App extends React.Component<{}, IState> {  
   public state : Readonly<IState> = {
-    cart: [],
-    products: [],
-    showLoader: true
+    cart: []
   };
 
   componentDidMount(){
@@ -39,41 +34,16 @@ class App extends React.Component<{}, IState> {
         this.setState({
           cart: res.body
         });
-      })
-  }
-
-  public getProducts = () => {
-    superagent
-      .get('https://5b209234ca762000147b254f.mockapi.io/products')
-      .end((err: superagent.ResponseError, res: superagent.Response) => {
-        this.setState({
-          products: res.body,
-          showLoader: false
-        });
       });
   }
 
   componentWillMount(){
     console.log('inside componentWillMount');
-    this.getProducts();
     this.getCart();
   }
 
   public render() {
-    let loaderComponent = null;
-    if(this.state.showLoader){
-      loaderComponent = (
-        <div className="progress">
-          <div 
-              className="progress-bar progress-bar-striped progress-bar-animated" 
-              role="progressbar" 
-              aria-valuenow={75} 
-              aria-valuemin={0} 
-              aria-valuemax={100}
-            />
-        </div>
-      )
-    }
+    
     
     return (
       <div className="container">
@@ -96,8 +66,6 @@ class App extends React.Component<{}, IState> {
           </div>
         </nav>
         <div className="container">
-            <div className="row">
-              <div className="col">
                 <Route 
                   exact={true} 
                   path="/" 
@@ -107,13 +75,6 @@ class App extends React.Component<{}, IState> {
                   path="/about" 
                   component={About} 
                 />
-              </div>
-            </div>            
-            <ProductList 
-              getCart={this.getCart}
-              list={this.state.products}
-            />
-            {loaderComponent}
         </div>
       </div>
     );

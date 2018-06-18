@@ -6,6 +6,7 @@ import './App.css';
 import MiniCart from './components/mini-cart/MiniCart';
 import Home from './pages/home/Home';
 import About from './pages/about/About';
+import ProductDetail from './pages/detail/ProductDetail';
 import ICartItem from './models/cartItem';
 
 
@@ -74,6 +75,10 @@ class App extends React.Component<{}, IState> {
                 <Route 
                   path="/about" 
                   component={About} 
+                />
+                <Route 
+                  path="/detail/:productId" 
+                  component={ProductDetail} 
                 />
         </div>
       </div>

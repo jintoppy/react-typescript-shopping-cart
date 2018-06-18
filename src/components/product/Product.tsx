@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import IProduct from '../../models/product';
 import './Product.css';
 
@@ -30,6 +31,11 @@ const Product: React.SFC<IProps> = ({item, onAddToCart}: IProps) => {
                             className="btn btn-success">
                             Add to Cart
                         </button>
+                        <Link 
+                            className="btn btn-primary"
+                            to={'/detail/'+item.id}>
+                            View Details
+                        </Link>
                     </div>
                 </div>
             </div>

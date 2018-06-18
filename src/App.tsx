@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Route , Link } from 'react-router-dom';
 import './App.css';
 import MiniCart from './components/mini-cart/MiniCart';
+import AddProduct from './pages/add-product/AddProduct';
 import Home from './pages/home/Home';
 import About from './pages/about/About';
 import ProductDetail from './pages/detail/ProductDetail';
@@ -60,6 +61,11 @@ class App extends React.Component<{}, IState> {
               <li>
                 <Link to="/about">About</Link>
               </li>
+              <li>
+                <Link to="/add-product">
+                  Add Product
+                </Link>
+              </li>
             </ul>
           </div>
           <div className="col-4">
@@ -79,6 +85,10 @@ class App extends React.Component<{}, IState> {
                 <Route 
                   path="/detail/:productId" 
                   component={ProductDetail} 
+                />
+                <Route 
+                  path="/add-product" 
+                  component={AddProduct} 
                 />
         </div>
       </div>

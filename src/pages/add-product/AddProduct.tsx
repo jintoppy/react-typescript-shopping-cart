@@ -1,7 +1,15 @@
 import * as superagent from 'superagent';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import * as React from 'react';
 
-class AddProduct extends React.Component{
+interface IState {
+    isModalOpen: boolean;
+}
+
+class AddProduct extends React.Component<{}, IState>{
+    public state : Readonly<IState> = {
+        isModalOpen: false
+    };
     private titleInput: HTMLInputElement;
     private descriptionInput: HTMLTextAreaElement;
     private priceInput: HTMLInputElement;
@@ -19,7 +27,9 @@ class AddProduct extends React.Component{
             .send(inputValue)
             .set('accept', 'json')
             .end(() => {
-                alert('Added successfully');
+                this.setState({
+                    isModalOpen: true
+                });
             });
     }
     public setTitleInput = (el: HTMLInputElement) => {
@@ -39,10 +49,37 @@ class AddProduct extends React.Component{
         this.imgUrlInput = el;
     }
 
+    public closeModal = () => {
+        this.setState({
+            isModalOpen: false
+        });
+    }
+
+    public getModal = () => {
+        return (
+            <Modal isOpen={this.state.isModalOpen}>
+                <ModalHeader>
+                    Message
+                </ModalHeader>
+                <ModalBody>
+                    Product Added
+                </ModalBody>
+                <ModalFooter>
+                    <button 
+                        onClick={this.closeModal}
+                        className="btn btn-default">
+                        Close
+                    </button>
+                </ModalFooter>
+            </Modal>
+        )
+    }
+
     public render(){        
         return (
             <div className="row">
                 <div className="col">
+                    {this.getModal()}
                     <form onSubmit={this.onFormSubmit}>
                         <div className="form-group">
                             <label htmlFor="title">Title</label>

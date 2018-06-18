@@ -5,14 +5,12 @@ interface IProps {
     cart: ICartItem[]
 }
 
-class MiniCart extends React.Component<IProps>{
-    public render(){
-        return (
-            <span>
-                You have {this.props.cart.length} items in your cart
-            </span>
-        )
-    }
+const MiniCart : React.SFC<IProps> = ({cart}) => {
+    return (
+        <span>
+            You have {cart.length} items in your cart
+        </span>
+    )
 }
 
 export default MiniCart;

@@ -1,26 +1,17 @@
 import * as React from 'react';
-import * as superagent from 'superagent';
 import IProduct from '../../models/product';
 import Product from '../product/Product';
 
 interface IProps {
     list: IProduct[],
-    getCart: Function
+    showLoader: boolean,
+    addToCart: (prodId: number) => void,
+    getProducts: () => void
 }
 
 class ProductList extends React.Component<IProps>{
-    public addToCart = (productId: number) => {
-        superagent
-            .post('https://5b209234ca762000147b254f.mockapi.io/cart')
-            .send({
-                productId,
-                quantity: 1
-            })
-            .set('accept', 'json')
-            .end(() => {
-                alert('Added successfully');
-                this.props.getCart();
-            });
+    componentWillMount(){
+        this.props.getProducts();
     }
     shouldComponentUpdate(nextProps: IProps): boolean{
         if(nextProps.list.length !== this.props.list.length){
@@ -29,19 +20,36 @@ class ProductList extends React.Component<IProps>{
         return false;
     }
     public render(){
+        let loaderComponent = null;
+        if(this.props.showLoader){
+        loaderComponent = (
+            <div className="progress">
+            <div 
+                className="progress-bar progress-bar-striped progress-bar-animated" 
+                role="progressbar" 
+                aria-valuenow={75} 
+                aria-valuemin={0} 
+                aria-valuemax={100}
+                />
+            </div>
+        )
+        }
         const products = this.props.list.map(p => {
             return (
                 <Product 
                     item={p} 
                     key={p.id} 
-                    onAddToCart={this.addToCart}
+                    onAddToCart={this.props.addToCart}
                 />
             )
         });
         return (
-            <div className="row">
-                {products}
-            </div>
+            <React.Fragment>
+                {loaderComponent}
+                <div className="row">
+                    {products}
+                </div>
+            </React.Fragment>
         )
     }
 }

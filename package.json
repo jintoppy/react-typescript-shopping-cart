@@ -16,12 +16,14 @@
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom",
+    "test": "react-scripts-ts test --watchAll --env=jsdom",
     "eject": "react-scripts-ts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
   "devDependencies": {
+    "@types/enzyme": "^3.1.10",
+    "@types/enzyme-adapter-react-16": "^1.0.2",
     "@types/flux": "^3.1.7",
     "@types/jest": "^23.0.2",
     "@types/node": "^10.3.2",
@@ -30,6 +32,8 @@
     "@types/react-router-dom": "^4.2.7",
     "@types/reactstrap": "^6.0.0",
     "@types/superagent": "^3.8.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "gh-pages": "^1.2.0",
     "typescript": "^2.9.1"
   }
